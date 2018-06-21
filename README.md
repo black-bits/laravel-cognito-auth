@@ -15,6 +15,10 @@ Currently we have the following features implemented in our package:
 - Single Sign On
 - Forgot Password
 
+
+### Disclaimer
+_This package is currently in development and is not production ready._
+
 ## Installation
 
 You can install the package via composer.
@@ -45,6 +49,9 @@ To do so got to your `config\auth.php` file and change it to look the following:
 ],
 ```
 
+
+If you are already working on an existing project and want to integrate Cognito you must importat a user csv 
+file to your Cognito Pool.
 
 
 ## Usage
