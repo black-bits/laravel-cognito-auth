@@ -15,22 +15,37 @@ Currently we have the following features implemented in our package:
 - Single Sign On
 - Forgot Password
 
-### Disclaimer
-_This package is currently in development and is not production ready._
-
 ## Installation
 
-You can install the package via composer
+You can install the package via composer.
 
 ```bash
 composer require black-bits/laravel-cognito-auth
 ```
 
-Next you can publish the config and view
+Next you can publish the config and the view.
 
 ```bash
-php artisan vendor:publish --provider="BlackBits\LaravelCognitoAuth\LaravelCognitoAuthServiceProvider"
+php artisan vendor:publish --provider="BlackBits\LaravelCognitoAuth\CognitoAuthServiceProvider"
 ```
+
+Last but not least you want to change the auth driver. 
+To do so got to your `config\auth.php` file and change it to look the following:
+
+```
+'guards' => [
+    'web' => [
+        'driver' => 'cognito', // This line is important 
+        'provider' => 'standard',
+    ],
+    'api' => [
+        'driver' => 'token',
+        'provider' => 'standard',
+    ],
+],
+```
+
+
 
 ## Usage
 
@@ -46,12 +61,13 @@ AWS_COGNITO_USER_POOL_ID
 AWS_COGNITO_SSO
 ```
 
-Add BlackBits\LaravelCognitoAuth\CognitoAuthServiceProvider to your `config\app.php`.
+Add BlackBits\LaravelCognitoAuth\CognitoAuthServiceProvider to your `config\app.php` if you are using Laravel version < 5.5.
 
 Go to your amazon management console into your cognito area and create a new user pool. 
 
 Generate an App Client. You can name it whatever you want. This will give you the App client id and the App client secret
 you need for your `.env` file. 
+
 ```
 IMPORTANT: Don't forget to activate the checkbox to Enable sign-in API for server-based Authentication. 
 The Auth Flow is called: ADMIN_NO_SRP_AUTH
@@ -91,6 +107,16 @@ app which should use the same pool. Well, thats actually pretty easy. You set up
 laravel-cognito-auth package. On both sites set sso to true. Also be sure you entered exactly the same pool id. 
 Now when a user is registered in your other app but not in your second and wants to login he gets created. And thats all you need to do. 
 
+
+```
+   IMPORTANT: if your user table has a password field you are not going to need this anymore. 
+   What you want to do is set this field to be nullable so that users can be created without passwords. 
+   Passwords are stored in Cognito now. 
+   
+   Also any additional registration data you have, for example firstname, lastname needs to be added in 
+   config\congito.php sso_user_fields config to be pushed to Cognito. Otherwise they are only stored locally 
+   and are not available if you want to use Single Sign On's. 
+```
 
 ### Changelog
 
