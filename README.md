@@ -34,7 +34,7 @@ php artisan vendor:publish --provider="BlackBits\LaravelCognitoAuth\LaravelCogni
 
 ## Usage
 
-- Add the following fields to your `.env` file:
+Add the following fields to your `.env` file:
 
 ```
 AWS_KEY
@@ -45,6 +45,8 @@ AWS_COGNITO_CLIENT_SECRET
 AWS_COGNITO_USER_POOL_ID
 AWS_COGNITO_SSO
 ```
+
+Add BlackBits\LaravelCognitoAuth\CognitoAuthServiceProvider to your `config\app.php`.
 
 Go to your amazon management console into your cognito area and create a new user pool. 
 
