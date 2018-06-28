@@ -40,11 +40,11 @@ To do so got to your `config\auth.php` file and change it to look the following:
 'guards' => [
     'web' => [
         'driver' => 'cognito', // This line is important 
-        'provider' => 'standard',
+        'provider' => 'users',
     ],
     'api' => [
         'driver' => 'token',
-        'provider' => 'standard',
+        'provider' => 'users',
     ],
 ],
 ```
@@ -59,8 +59,6 @@ file to your Cognito Pool.
 Add the following fields to your `.env` file:
 
 ```
-AWS_KEY
-AWS_SECRET
 AWS_REGION
 AWS_COGNITO_CLIENT_ID
 AWS_COGNITO_CLIENT_SECRET
