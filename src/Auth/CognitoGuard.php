@@ -1,17 +1,17 @@
 <?php
+
 namespace BlackBits\LaravelCognitoAuth\Auth;
 
-use BlackBits\LaravelCognitoAuth\CognitoClient;
-use BlackBits\LaravelCognitoAuth\Exceptions\InvalidUserModelException;
-use BlackBits\LaravelCognitoAuth\Exceptions\NoLocalUserException;
 use Aws\Result;
 use Illuminate\Auth\SessionGuard;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\StatefulGuard;
-use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Session\Session;
+use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Contracts\Auth\Authenticatable;
+use BlackBits\LaravelCognitoAuth\CognitoClient;
+use BlackBits\LaravelCognitoAuth\Exceptions\InvalidUserModelException;
 
 class CognitoGuard extends SessionGuard implements StatefulGuard
 {
@@ -27,7 +27,6 @@ class CognitoGuard extends SessionGuard implements StatefulGuard
      * @param UserProvider $provider
      * @param Session $session
      * @param null|Request $request
-
      */
     public function __construct(
         string $name,
@@ -71,19 +70,19 @@ class CognitoGuard extends SessionGuard implements StatefulGuard
     private function createUser($email)
     {
         /** @var Result $userResult */
-        $userResult     = $this->client->getUser($email);
+        $userResult = $this->client->getUser($email);
         $userAttributes = count($userResult->get('UserAttributes')) > 0 ? $userResult->get('UserAttributes') : [];
-        $userFields     = config('cognito.sso_user_fields');
-        $userModel      = config('cognito.sso_user_model');
+        $userFields = config('cognito.sso_user_fields');
+        $userModel = config('cognito.sso_user_model');
         /** @var Model $user */
-        $user           = new $userModel;
+        $user = new $userModel;
 
-        if (!$user instanceof Model) {
+        if (! $user instanceof Model) {
             throw new InvalidUserModelException('User model does not extend Eloquent Model class.');
         }
 
         foreach ($userAttributes as $userAttribute) {
-            $name  = $userAttribute['Name'];
+            $name = $userAttribute['Name'];
             $value = $userAttribute['Value'];
 
             if (in_array($name, $userFields)) {
