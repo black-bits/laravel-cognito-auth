@@ -1,10 +1,11 @@
 <?php
+
 namespace BlackBits\LaravelCognitoAuth\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Foundation\Auth\ResetsPasswords as BaseResetsPasswords;
 use BlackBits\LaravelCognitoAuth\CognitoClient;
+use Illuminate\Foundation\Auth\ResetsPasswords as BaseResetsPasswords;
 
 trait ResetsPasswords
 {
@@ -36,7 +37,7 @@ trait ResetsPasswords
     }
 
     /**
-     * If a user is being forced to set a new password for the first time follow that flow instead
+     * If a user is being forced to set a new password for the first time follow that flow instead.
      *
      * @param  \Illuminate\Http\Request $request
      * @return string
@@ -73,8 +74,8 @@ trait ResetsPasswords
     protected function rules()
     {
         return [
-            'token' => 'required',
-            'email' => 'required|email',
+            'token'    => 'required',
+            'email'    => 'required|email',
             'password' => 'required|confirmed|min:8',
         ];
     }

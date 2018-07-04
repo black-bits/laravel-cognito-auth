@@ -61,7 +61,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "BlackBits\\LaravelCognitoAuth\\LaravelCognitoAuthServiceProvider"
+                "BlackBits\\LaravelCognitoAuth\\CognitoAuthServiceProvider"
             ]
         }
     }
