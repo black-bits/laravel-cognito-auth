@@ -1,11 +1,12 @@
 <?php
+
 namespace BlackBits\LaravelCognitoAuth\Auth;
 
-use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers as BaseAuthenticatesUsers;
-use BlackBits\LaravelCognitoAuth\Exceptions\NoLocalUserException;
 use Illuminate\Validation\ValidationException;
+use BlackBits\LaravelCognitoAuth\Exceptions\NoLocalUserException;
+use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
+use Illuminate\Foundation\Auth\AuthenticatesUsers as BaseAuthenticatesUsers;
 
 trait AuthenticatesUsers
 {
@@ -56,11 +57,9 @@ trait AuthenticatesUsers
             if ($this->attemptLogin($request)) {
                 return $this->sendLoginResponse($request);
             }
-        }
-        catch (CognitoIdentityProviderException $c) {
+        } catch (CognitoIdentityProviderException $c) {
             return $this->sendFailedCognitoResponse($c);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return $this->sendFailedLoginResponse($request);
         }
 

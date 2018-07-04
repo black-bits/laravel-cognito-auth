@@ -16,7 +16,7 @@ return [
     'use_sso'           => env('USE_SSO', false),
     'sso_user_fields'   => [
         'name',
-        'email'
+        'email',
     ],
-    'sso_user_model'        => 'App\User'
+    'sso_user_model'        => 'App\User',
 ];
