@@ -1,7 +1,8 @@
 # Laravel Package to easily manage authentication with AWS Cognito
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/black-bits/laravel-cognito-auth.svg?style=flat-square)](https://packagist.org/packages/black-bits/laravel-firewall)
-[![Total Downloads](https://img.shields.io/packagist/dt/black-bits/laravel-cognito-auth.svg?style=flat-square)](https://packagist.org/packages/black-bits/laravel-firewall)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/black-bits/laravel-cognito-auth.svg?style=flat-square)](https://packagist.org/packages/black-bits/laravel-cognito-auth)
+[![Total Downloads](https://img.shields.io/packagist/dt/black-bits/laravel-cognito-auth.svg?style=flat-square)](https://packagist.org/packages/black-bits/laravel-cognito-auth)
+[![StyleCI](https://styleci.io/repos/137779073/shield)](https://styleci.io/repos/137779073)
 
 This package provides a simple way to use AWS Cognito authentication in Laravel. 
 The idea of this package, and some of the code, is based on the package from Pod-Point which you can find here: [Pod-Point/laravel-cognito-auth](https://github.com/Pod-Point/laravel-cognito-auth).
