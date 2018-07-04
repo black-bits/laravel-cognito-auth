@@ -29,18 +29,18 @@ trait RegistersUsers
 
         foreach($userFields as $userField) {
 
-            if ($request->$userField === null) {
-                throw new InvalidUserFieldException("The configured user field $userField is not provided in the request.");
+            if ($request->filled($userField)) {
+                $attributes[$userField] = $request->get($userField);
+            } else {
+                throw new InvalidUserFieldException("The configured user field {$userField} is not provided in the request.");
             }
 
-            $attributes[$userField] = $request->$userField;
         }
 
         app()->make(CognitoClient::class)->register($request->email, $request->password, $attributes);
 
         event(new Registered($user = $this->create($request->all())));
 
-        return $this->registered($request, $user)
-            ?: redirect($this->redirectPath());
+        return $this->registered($request, $user) ?: redirect($this->redirectPath());
     }
 }

@@ -57,7 +57,7 @@ class CognitoClient
     }
 
     /**
-     * Checks if credentials of a user are valid
+     * Checks if credentials of a user are valid.
      *
      * @see http://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminInitiateAuth.html
      * @param string $email
@@ -93,7 +93,7 @@ class CognitoClient
     }
 
     /**
-     * Registers a user in the given user pool
+     * Registers a user in the given user pool.
      *
      * @param $email
      * @param $password
@@ -195,8 +195,8 @@ class CognitoClient
      * Register a user and send them an email to set their password.
      * http://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminCreateUser.html
      *
-     * @param  string $email
-     * @param  array  $attributes
+     * @param $username
+     * @param array $attributes
      * @return bool
      */
     public function inviteUser($username, array $attributes = [])
@@ -282,7 +282,7 @@ class CognitoClient
 
 
     /**
-     * Creates the Cognito secret hash
+     * Creates the Cognito secret hash.
      * @param string $username
      * @return string
      */
@@ -292,7 +292,7 @@ class CognitoClient
     }
 
     /**
-     * Creates a HMAC from a string
+     * Creates a HMAC from a string.
      *
      * @param string $message
      * @return string
@@ -331,7 +331,7 @@ class CognitoClient
     }
 
     /**
-     * Format attributes in Name/Value array
+     * Format attributes in Name/Value array.
      *
      * @param  array $attributes
      * @return array

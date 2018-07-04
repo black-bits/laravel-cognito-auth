@@ -39,6 +39,9 @@ trait AuthenticatesUsers
         return true;
     }
 
+    /**
+     * @param Request $request
+     */
     public function login(Request $request)
     {
         $this->validateLogin($request);
@@ -49,13 +52,12 @@ trait AuthenticatesUsers
             return $this->sendLockoutResponse($request);
         }
 
-        try
-        {
+        try {
             if ($this->attemptLogin($request)) {
                 return $this->sendLoginResponse($request);
             }
         }
-        catch(CognitoIdentityProviderException $c) {
+        catch (CognitoIdentityProviderException $c) {
             return $this->sendFailedCognitoResponse($c);
         }
         catch (\Exception $e) {
@@ -65,6 +67,9 @@ trait AuthenticatesUsers
         return $this->sendFailedLoginResponse($request);
     }
 
+    /**
+     * @param CognitoIdentityProviderException $exception
+     */
     private function sendFailedCognitoResponse(CognitoIdentityProviderException $exception)
     {
         throw ValidationException::withMessages([

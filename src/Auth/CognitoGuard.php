@@ -52,10 +52,8 @@ class CognitoGuard extends SessionGuard implements StatefulGuard
         $result = $this->client->authenticate($credentials['email'], $credentials['password']);
 
         // Only create the user if single sign on is activated in the project
-        if (config('cognito.sso')) {
-            if ($result !== false && $user === null) {
-                $user = $this->createUser($credentials['email']);
-            }
+        if (config('cognito.use_sso') && $result !== false && $user === null) {
+            $user = $this->createUser($credentials['email']);
         }
 
         if ($result && $user instanceof Authenticatable) {
@@ -66,8 +64,9 @@ class CognitoGuard extends SessionGuard implements StatefulGuard
     }
 
     /**
-     * @throws InvalidUserModelException
+     * @param $email
      * @return Model
+     * @throws InvalidUserModelException
      */
     private function createUser($email)
     {
