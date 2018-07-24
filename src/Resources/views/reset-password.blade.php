@@ -9,7 +9,7 @@
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('password.request') }}" aria-label="{{ __('Reset Password') }}">
-                            @csrf
+                            {{ csrf_field() }}
 
                             <div class="form-group row">
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
@@ -33,6 +33,12 @@
                                 <div class="col-md-6">
                                     <input type="text" id="token" class="form-control {{ $errors->has('token') ? 'is-invalid' : '' }}" name="token" required />
                                 </div>
+
+                                @if ($errors->has('token'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('token') }}</strong>
+                                    </span>
+                                @endif
                             </div>
 
                             <div class="form-group row">
