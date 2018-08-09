@@ -264,11 +264,11 @@ class CognitoClient
     {
         $this->client->adminDeleteUser([
             'UserPoolId'  => $this->poolId,
-            'Username' => $username
+            'Username'    => $username,
         ]);
     }
 
-    # HELPER FUNCTIONS
+    // HELPER FUNCTIONS
 
     /**
      * Set a users attributes.
