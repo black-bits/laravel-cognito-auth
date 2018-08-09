@@ -255,6 +255,19 @@ class CognitoClient
         return Password::PASSWORD_RESET;
     }
 
+    /**
+     * @param string $username
+     *
+     * @see https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-cognito-idp-2016-04-18.html#admindeleteuser
+     */
+    public function deleteUser($username)
+    {
+        $this->client->adminDeleteUser([
+            'UserPoolId'  => $this->poolId,
+            'Username'    => $username,
+        ]);
+    }
+
     // HELPER FUNCTIONS
 
     /**

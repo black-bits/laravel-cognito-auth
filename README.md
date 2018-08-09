@@ -15,7 +15,7 @@ Currently we have the following features implemented in our package:
 - Remember Me Cookie
 - Single Sign On
 - Forgot Password
-
+- User Deletion
 
 ### Disclaimer
 _This package is currently in development and is not production ready._
@@ -45,9 +45,8 @@ Next you can publish the config and the view.
 ```bash
 php artisan vendor:publish --provider="BlackBits\LaravelCognitoAuth\CognitoAuthServiceProvider"
 ```
-
-Last but not least you want to change the auth driver. 
-To do so got to your `config\auth.php` file and change it to look the following:
+Last but not least you want to change the auth driver. To do so got to your config\auth.php file and change it 
+to look the following:
 
 ```
 'guards' => [
@@ -73,6 +72,14 @@ you need for your `.env` file.
 
 *IMPORTANT: Don't forget to activate the checkbox to Enable sign-in API for server-based Authentication. 
 The Auth Flow is called: ADMIN_NO_SRP_AUTH*
+
+You also need a new IAM Role with the following Access Rights:
+
+- AmazonCognitoDeveloperAuthenticatedIdentities
+- AmazonCognitoPowerUser
+- AmazonESCognitoAccess
+
+From this user you can fetch the AWS_COGNITO_KEY and AWS_COGNITO_SECRET.
 
 ### Cognito API configuration
 
@@ -152,6 +159,33 @@ From now on, Passwords are stored in Cognito.
 Any additional registration data you have, for example `firstname`, `lastname` needs to be added in 
 [cognito.php](/config/cognito.php) sso_user_fields config to be pushed to Cognito. Otherwise they are only stored locally 
 and are not available if you want to use Single Sign On's.*
+
+## Delete user
+
+If you want to give your users the ability to delete themselves from your app you can use our deleteUser function
+from the CognitoClient. 
+
+To delete the user you should call deleteUser and pass the email of the user as a parameter to it.
+After the user has been deleted in your cognito pool, delete your user from your database too.
+
+```
+    $cognitoClient->deleteUser($user->email);
+    $user->delete();
+```
+
+To access our CognitoClient you can simply pass it as a parameter to your Controller Action where you want to perform 
+the deletion. 
+
+```
+    public function deleteUser(Request $request, CognitoClient $cognitoClient)
+```
+
+Laravel will take care of the dependency injection by itself. 
+
+```
+    IMPORTANT: You want to secure this action by maybe security questions, a second delete password or by confirming 
+    the email address.
+```
 
 ### Changelog
 
