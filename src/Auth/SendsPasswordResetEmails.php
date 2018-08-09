@@ -1,10 +1,11 @@
 <?php
+
 namespace BlackBits\LaravelCognitoAuth\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails as BaseSendsPasswordResetEmails;
 use BlackBits\LaravelCognitoAuth\CognitoClient;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails as BaseSendsPasswordResetEmails;
 
 trait SendsPasswordResetEmails
 {

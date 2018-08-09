@@ -1,11 +1,12 @@
 <?php
+
 namespace BlackBits\LaravelCognitoAuth\Auth;
 
-use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers as BaseAuthenticatesUsers;
-use BlackBits\LaravelCognitoAuth\Exceptions\NoLocalUserException;
 use Illuminate\Validation\ValidationException;
+use BlackBits\LaravelCognitoAuth\Exceptions\NoLocalUserException;
+use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
+use Illuminate\Foundation\Auth\AuthenticatesUsers as BaseAuthenticatesUsers;
 
 trait AuthenticatesUsers
 {
@@ -39,6 +40,9 @@ trait AuthenticatesUsers
         return true;
     }
 
+    /**
+     * @param Request $request
+     */
     public function login(Request $request)
     {
         $this->validateLogin($request);
@@ -49,22 +53,22 @@ trait AuthenticatesUsers
             return $this->sendLockoutResponse($request);
         }
 
-        try
-        {
+        try {
             if ($this->attemptLogin($request)) {
                 return $this->sendLoginResponse($request);
             }
-        }
-        catch(CognitoIdentityProviderException $c) {
+        } catch (CognitoIdentityProviderException $c) {
             return $this->sendFailedCognitoResponse($c);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return $this->sendFailedLoginResponse($request);
         }
 
         return $this->sendFailedLoginResponse($request);
     }
 
+    /**
+     * @param CognitoIdentityProviderException $exception
+     */
     private function sendFailedCognitoResponse(CognitoIdentityProviderException $exception)
     {
         throw ValidationException::withMessages([

@@ -1,10 +1,10 @@
 <?php
+
 namespace BlackBits\LaravelCognitoAuth;
 
-use BlackBits\LaravelCognitoAuth\Auth\CognitoGuard;
-use BlackBits\LaravelCognitoAuth\CognitoClient;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\ServiceProvider;
+use BlackBits\LaravelCognitoAuth\Auth\CognitoGuard;
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
 
 class CognitoAuthServiceProvider extends ServiceProvider
@@ -12,7 +12,7 @@ class CognitoAuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/cognito.php' => config_path('cognito.php'),
+            __DIR__.'/../config/cognito.php' => config_path('cognito.php'),
         ], 'config');
 
         $this->publishes([
@@ -23,7 +23,7 @@ class CognitoAuthServiceProvider extends ServiceProvider
             $config = [
                 'credentials' => config('cognito.credentials'),
                 'region'      => config('cognito.region'),
-                'version'     => config('cognito.version')
+                'version'     => config('cognito.version'),
             ];
 
             return new CognitoClient(
@@ -50,8 +50,8 @@ class CognitoAuthServiceProvider extends ServiceProvider
             return $guard;
         });
 
-        $this->loadRoutesFrom(__DIR__ . '/routes.php');
-        $this->loadViewsFrom(__DIR__ . '/Resources/views', 'black-bits/laravel-cognito-auth');
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadViewsFrom(__DIR__.'/Resources/views', 'black-bits/laravel-cognito-auth');
     }
 
     public function register()
