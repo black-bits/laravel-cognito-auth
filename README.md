@@ -123,6 +123,33 @@ Now when a user is registered in your other app but not in your second and wants
    and are not available if you want to use Single Sign On's. 
 ```
 
+## Delete user
+
+If you want to give your users the ability to delete themselves from your app you can use our deleteUser function
+from the CognitoClient. 
+
+To delete the user you should call deleteUser and pass the email of the user as a parameter to it.
+After the user has been deleted in your cognito pool, delete your user from your database too.
+
+```
+    $cognitoClient->deleteUser($user->email);
+    $user->delete();
+```
+
+To access our CognitoClient you can simply pass it as a parameter to your Controller Action where you want to perform 
+the deletion. 
+
+```
+    public function deleteUser(Request $request, CognitoClient $cognitoClient)
+```
+
+Laravel will take care of the dependency injection by itself. 
+
+```
+    IMPORTANT: You want to secure this action by maybe security questions, a second delete password or by confirming 
+    the email address.
+```
+
 ### Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.

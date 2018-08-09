@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-cognito-auth` will be documented in this file
 
+## 0.1.2 - 2018-08-09
+
+- implemented userDelete function in CognitoClient
+
 ## 0.1.1 - 2018-07-24
 
 - fixed bugs in reset-password.blade.php
