@@ -16,6 +16,8 @@ Currently we have the following features implemented in our package:
 - Single Sign On
 - Forgot Password
 - User Deletion
+- Edit User Attributes
+- Reset User Password
 
 ### Disclaimer
 _This package is currently in development and is not production ready._

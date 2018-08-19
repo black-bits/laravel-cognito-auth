@@ -118,8 +118,6 @@ class CognitoClient
             throw $e;
         }
 
-        $this->setUserAttributes($email, ['email_verified' => 'true']);
-
         return (bool) $response['UserConfirmed'];
     }
 
@@ -264,6 +262,14 @@ class CognitoClient
     {
         $this->client->adminDeleteUser([
             'UserPoolId'  => $this->poolId,
+            'Username' => $username
+        ]);
+    }
+
+    public function invalidatePassword($username)
+    {
+        $this->client->adminResetUserPassword([
+            'UserPoolId' => $this->poolId,
             'Username' => $username
         ]);
     }
