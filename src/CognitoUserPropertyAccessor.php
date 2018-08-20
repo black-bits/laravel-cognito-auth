@@ -1,4 +1,5 @@
 <?php
+
 namespace BlackBits\LaravelCognitoAuth;
 
 class CognitoUserPropertyAccessor
@@ -26,7 +27,7 @@ class CognitoUserPropertyAccessor
     {
         $cognitoUser = $this->cognitoClient->getUser($username);
 
-        if (!$cognitoUser) {
+        if (! $cognitoUser) {
             return false;
         }
 
@@ -50,7 +51,7 @@ class CognitoUserPropertyAccessor
     {
         $cognitoUser = $this->cognitoClient->getUser($username);
 
-        if (!$cognitoUser) {
+        if (! $cognitoUser) {
             return false;
         }
 
@@ -63,7 +64,7 @@ class CognitoUserPropertyAccessor
      */
     private function transformValue(string $value)
     {
-        switch($value) {
+        switch ($value) {
             case 'true':
                 return true;
                 break;
