@@ -95,24 +95,12 @@ AWS_COGNITO_REGION=
 AWS_COGNITO_CLIENT_ID=
 AWS_COGNITO_CLIENT_SECRET=
 AWS_COGNITO_USER_POOL_ID=
+AWS_COGNITO_DELETE_USER=
 ```
 
 ### Importing existing users into the Cognito Pool
 
 If you are already working on an existing project and want to integrate Cognito you have to [import a user csv file to your Cognito Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-using-import-tool.html).
-
-### Package configuration
-
-To enable single sign-on you can set USE_SSO to true in your .env file.
-```
-USE_SSO=true
-```
-
-Single sign-on allows all users in your Cognito pool to log into your app without registering first. 
-Users that are not already in your database will be automatically created for you, as if they were registering.
-User data will be pre-filled with data available in AWS Cognito. You can configure these fields in the config [cognito.php](/config/cognito.php).
-For more information on this topic read the Single Sign-On section in this readme.
-
 
 ## Usage
 
@@ -124,11 +112,11 @@ Our package is providing you 4 traits you can just add to your Auth Controllers 
 - BlackBits\LaravelCognitoAuth\Auth\SendsPasswordResetEmails
 
 
-In the simplest way you just go through your Auth Controllers and change namespaces from the traits which are currently implemented from laravel.
+In the simplest way you just go through your Auth Controllers and change namespaces from the traits which are currently implemented from Laravel.
 
 During the publishing process of our package you created a view which you will find under `Resources/views/vendor/black-bits/laravel-cognito-auth`. 
 
-You can change structure to fit your needs. Please be aware of the @extend statement in the blade file to fit into your project structure. 
+You can change structure to suit your needs. Please be aware of the @extend statement in the blade file to fit into your project structure. 
 At the current state you need to have those 4 form fields defined in here. Those are `token`, `email`, `password`, `password_confirmation`. 
 
 ## Single Sign-On
@@ -163,7 +151,58 @@ Any additional registration data you have, for example `firstname`, `lastname` n
 [cognito.php](/config/cognito.php) sso_user_fields config to be pushed to Cognito. Otherwise they are only stored locally 
 and are not available if you want to use Single Sign On's.*
 
-## Delete user
+## Registering Users 
+
+As a default, if you are registering a new user with Cognito, Cognito will send you an email during signUp were the user can verify themselves. 
+If the user now clicks on the link in the email he will be redirected to a confirmation page which is provided by Cognito. 
+In most cases, this is not you what you want. You want the user to stay on your page. 
+
+We have found a neat way to get around this default behaviour. 
+
+1. You need to create an extra field for the user where you want to store the verification token. This field has to be nullable.
+2. Create an Event Listener that listens for Registered Event which is fired after the user has been registered. 
+3. In this event listener, you generate a token and store that in the field you created above. 
+4. You create an email and send that token, stored in a link, to the user.  
+5. The link should point to a controller action where you first check if a user with this token exists. 
+If such a exists in the database you make a call to Cognito and set the user Attributes to email_verified true and confirm the signUp.
+
+    ```
+     public function verifyEmail(
+            $token,
+            CognitoClient $cognitoClient,
+            CognitoUserPropertyAccessor $cognitoUserPropertyAccessor
+        ) {
+            $user = User::whereToken($token)->firstOrFail();
+    
+            $user->token = null;
+            $user->save();
+    
+            $cognitoClient->setUserAttributes($user->email, [
+                'email_verified' => 'true',
+            ]);
+    
+            if ($cognitoUserPropertyAccessor->getUserStatus($user->email) != 'CONFIRMED') {
+                $cognitoClient->confirmSignUp($user->email);
+                return response()->redirectToRoute('login');
+            }
+    
+            return response()->redirectToRoute('dashboard');
+        }
+    ```
+
+6. Now you need to turn off Cognito to send you emails. Go into your AWS account and navigate to the Cognito section. 
+Select your user pool and click on `MFA and verifications`  You will see a headline: 
+`Do you want to require verification of emails or phone numbers?`
+You have to remove all checked fields here. Once done, you should see a red alert:
+ `You have not selected either email or phone number verification, so your users will not be able to recover their passwords without contacting you for support.`
+
+7. Now you have told Cognito to stop sending you messages when a user registers on your app and you can handle it all by yourself. 
+
+As a sidenote: Password Forgot Emails will still be triggered through Cognito. You cannot turn them off, so make sure to style those emails
+to suit your needs. Also make sure to send the email from a proper FROM address. 
+
+
+## Delete User
 
 If you want to give your users the ability to delete themselves from your app you can use our deleteUser function
 from the CognitoClient. 
@@ -178,7 +217,8 @@ After the user has been deleted in your cognito pool, delete your user from your
 
 We have implemented a new config option `delete_user`, which you can access through `AWS_COGNITO_DELETE_USER` env var. 
 If you set this config to true, the user is deleted in the Cognito pool. If it is set to false, it will stay registered. 
-Per default this option is set to false.
+Per default this option is set to false. If you want this behaviour you should set USE_SSO to true to let the user 
+restore themselves after a successful login.
 
 To access our CognitoClient you can simply pass it as a parameter to your Controller Action where you want to perform 
 the deletion. 
