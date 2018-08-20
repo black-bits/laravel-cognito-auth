@@ -19,4 +19,5 @@ return [
         'email',
     ],
     'sso_user_model'        => 'App\User',
+    'delete_user'           => env('AWS_COGNITO_DELETE_USER', false),
 ];
