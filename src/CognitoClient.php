@@ -280,7 +280,7 @@ class CognitoClient
     {
         $this->client->adminConfirmSignUp([
             'UserPoolId' => $this->poolId,
-            'Username' => $username
+            'Username'   => $username,
         ]);
     }
 
