@@ -18,6 +18,7 @@ Currently we have the following features implemented in our package:
 - User Deletion
 - Edit User Attributes
 - Reset User Password
+- Confirm Sign Up
 
 ### Disclaimer
 _This package is currently in development and is not production ready._
@@ -174,6 +175,10 @@ After the user has been deleted in your cognito pool, delete your user from your
     $cognitoClient->deleteUser($user->email);
     $user->delete();
 ```
+
+We have implemented a new config option `delete_user`, which you can access through `AWS_COGNITO_DELETE_USER` env var. 
+If you set this config to true, the user is deleted in the Cognito pool. If it is set to false, it will stay registered. 
+Per default this option is set to false.
 
 To access our CognitoClient you can simply pass it as a parameter to your Controller Action where you want to perform 
 the deletion. 

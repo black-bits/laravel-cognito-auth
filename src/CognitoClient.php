@@ -260,10 +260,12 @@ class CognitoClient
      */
     public function deleteUser($username)
     {
-        $this->client->adminDeleteUser([
-            'UserPoolId'  => $this->poolId,
-            'Username'    => $username,
-        ]);
+        if (config('cognito.delete_user')) {
+            $this->client->adminDeleteUser([
+                'UserPoolId'  => $this->poolId,
+                'Username'    => $username,
+            ]);
+        }
     }
 
     public function invalidatePassword($username)
@@ -271,6 +273,14 @@ class CognitoClient
         $this->client->adminResetUserPassword([
             'UserPoolId' => $this->poolId,
             'Username'   => $username,
+        ]);
+    }
+
+    public function confirmSignUp($username)
+    {
+        $this->client->adminConfirmSignUp([
+            'UserPoolId' => $this->poolId,
+            'Username' => $username
         ]);
     }
 
