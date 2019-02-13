@@ -201,7 +201,6 @@ class CognitoClient
         try {
             $this->client->AdminCreateUser([
                 'UserPoolId'             => $this->poolId,
-                'TemporaryPassword'      => Str::random(40),
                 'DesiredDeliveryMediums' => [
                     'EMAIL',
                 ],
