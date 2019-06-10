@@ -32,7 +32,7 @@ trait ResetsPasswords
         }
 
         return $response == Password::PASSWORD_RESET
-            ? $this->sendResetResponse($response)
+            ? $this->sendResetResponse($request, $response)
             : $this->sendResetFailedResponse($request, $response);
     }
 
