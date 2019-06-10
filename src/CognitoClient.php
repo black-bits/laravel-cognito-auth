@@ -2,7 +2,6 @@
 
 namespace BlackBits\LaravelCognitoAuth;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Password;
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
 use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
