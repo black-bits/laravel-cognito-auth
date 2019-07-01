@@ -271,9 +271,9 @@ class CognitoClient
      *
      * @see https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserPassword.html
      *
-     * @param  string  $username
-     * @param  string  $password
-     * @param  boolean $permanent
+     * @param  string $username
+     * @param  string $password
+     * @param  bool $permanent
      * @return bool
      */
     public function setUserPassword($username, $password, $permanent = true)
