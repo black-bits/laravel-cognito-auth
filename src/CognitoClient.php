@@ -299,7 +299,7 @@ class CognitoClient
 
         return Password::PASSWORD_RESET;
     }
-    
+
     public function invalidatePassword($username)
     {
         $this->client->adminResetUserPassword([
