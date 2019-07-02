@@ -266,6 +266,40 @@ class CognitoClient
         }
     }
 
+    /**
+     * Sets the specified user's password in a user pool as an administrator.
+     *
+     * @see https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserPassword.html
+     *
+     * @param  string $username
+     * @param  string $password
+     * @param  bool $permanent
+     * @return bool
+     */
+    public function setUserPassword($username, $password, $permanent = true)
+    {
+        try {
+            $this->client->adminSetUserPassword([
+                'Password'   => $password,
+                'Permanent'  => $permanent,
+                'Username'   => $username,
+                'UserPoolId' => $this->poolId,
+            ]);
+        } catch (CognitoIdentityProviderException $e) {
+            if ($e->getAwsErrorCode() === self::USER_NOT_FOUND) {
+                return Password::INVALID_USER;
+            }
+
+            if ($e->getAwsErrorCode() === self::INVALID_PASSWORD) {
+                return Password::INVALID_PASSWORD;
+            }
+
+            throw $e;
+        }
+
+        return Password::PASSWORD_RESET;
+    }
+
     public function invalidatePassword($username)
     {
         $this->client->adminResetUserPassword([
