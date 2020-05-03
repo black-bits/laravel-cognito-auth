@@ -19,6 +19,10 @@ class CognitoAuthServiceProvider extends ServiceProvider
             __DIR__.'/Resources/views' => resource_path('views/vendor/black-bits/laravel-cognito-auth'),
         ], 'views');
 
+        $this->publishes([
+            __DIR__.'/Resources/lang' => resource_path('lang/vendor/black-bits/laravel-cognito-auth'),
+        ], 'lang');
+
         $this->app->singleton(CognitoClient::class, function (Application $app) {
             $config = [
                 'credentials' => config('cognito.credentials'),
@@ -52,6 +56,7 @@ class CognitoAuthServiceProvider extends ServiceProvider
 
         $this->loadRoutesFrom(__DIR__.'/routes.php');
         $this->loadViewsFrom(__DIR__.'/Resources/views', 'black-bits/laravel-cognito-auth');
+        $this->loadTranslationsFrom(__DIR__.'/Resources/lang', 'black-bits/laravel-cognito-auth');
     }
 
     public function register()
