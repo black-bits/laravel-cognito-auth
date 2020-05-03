@@ -316,6 +316,15 @@ class CognitoClient
         ]);
     }
 
+    public function confirmUserSignUp($username, $confirmationCode)
+    {
+        $this->client->confirmSignUp([
+            'ClientId'   => $this->clientId,
+            'ConfirmationCode' => $confirmationCode,
+            'Username'   => $username,
+        ]);
+    }
+
     // HELPER FUNCTIONS
 
     /**
