@@ -74,7 +74,7 @@ Next, generate an App Client. This will give you the App client id and the App c
 you need for your `.env` file. 
 
 *IMPORTANT: Don't forget to activate the checkbox to Enable sign-in API for server-based Authentication. 
-The Auth Flow is called: ADMIN_NO_SRP_AUTH*
+The Auth Flow is called: ADMIN_USER_PASSWORD_AUTH (formerly ADMIN_NO_SRP_AUTH)*
 
 You also need a new IAM Role with the following Access Rights:
 
@@ -104,12 +104,13 @@ If you are already working on an existing project and want to integrate Cognito 
 
 ## Usage
 
-Our package is providing you 4 traits you can just add to your Auth Controllers to get our package running.
+Our package is providing you 5 traits you can just add to your Auth Controllers to get our package running.
 
 - BlackBits\LaravelCognitoAuth\Auth\AuthenticatesUsers
 - BlackBits\LaravelCognitoAuth\Auth\RegistersUsers
 - BlackBits\LaravelCognitoAuth\Auth\ResetsPasswords
 - BlackBits\LaravelCognitoAuth\Auth\SendsPasswordResetEmails
+- BlackBits\LaravelCognitoAuth\Auth\VerifiesEmails
 
 
 In the simplest way you just go through your Auth Controllers and change namespaces from the traits which are currently implemented from Laravel.
