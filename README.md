@@ -74,7 +74,7 @@ Next, generate an App Client. This will give you the App client id and the App c
 you need for your `.env` file. 
 
 *IMPORTANT: Don't forget to activate the checkbox to Enable sign-in API for server-based Authentication. 
-The Auth Flow is called: ADMIN_NO_SRP_AUTH*
+The Auth Flow is called: ADMIN_USER_PASSWORD_AUTH (formerly ADMIN_NO_SRP_AUTH)*
 
 You also need a new IAM Role with the following Access Rights:
 
