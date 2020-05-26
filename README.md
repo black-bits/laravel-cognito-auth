@@ -104,12 +104,13 @@ If you are already working on an existing project and want to integrate Cognito 
 
 ## Usage
 
-Our package is providing you 4 traits you can just add to your Auth Controllers to get our package running.
+Our package is providing you 5 traits you can just add to your Auth Controllers to get our package running.
 
 - BlackBits\LaravelCognitoAuth\Auth\AuthenticatesUsers
 - BlackBits\LaravelCognitoAuth\Auth\RegistersUsers
 - BlackBits\LaravelCognitoAuth\Auth\ResetsPasswords
 - BlackBits\LaravelCognitoAuth\Auth\SendsPasswordResetEmails
+- BlackBits\LaravelCognitoAuth\Auth\VerifiesEmails
 
 
 In the simplest way you just go through your Auth Controllers and change namespaces from the traits which are currently implemented from Laravel.
