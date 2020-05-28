@@ -2,6 +2,7 @@
 
 namespace BlackBits\LaravelCognitoAuth;
 
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Password;
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
 use Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException;
@@ -172,7 +173,7 @@ class CognitoClient
             }
 
             if ($e->getAwsErrorCode() === self::INVALID_PASSWORD) {
-                return 'passwords.password';
+                return Lang::has('passwords.password') ? 'passwords.password' : $e->getAwsErrorMessage();
             }
 
             if ($e->getAwsErrorCode() === self::CODE_MISMATCH || $e->getAwsErrorCode() === self::EXPIRED_CODE) {
@@ -292,7 +293,7 @@ class CognitoClient
             }
 
             if ($e->getAwsErrorCode() === self::INVALID_PASSWORD) {
-                return 'passwords.password';
+                return Lang::has('passwords.password') ? 'passwords.password' : $e->getAwsErrorMessage();
             }
 
             throw $e;
