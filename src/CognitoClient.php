@@ -172,7 +172,7 @@ class CognitoClient
             }
 
             if ($e->getAwsErrorCode() === self::INVALID_PASSWORD) {
-                return Password::INVALID_PASSWORD;
+                return 'passwords.password';
             }
 
             if ($e->getAwsErrorCode() === self::CODE_MISMATCH || $e->getAwsErrorCode() === self::EXPIRED_CODE) {
@@ -292,7 +292,7 @@ class CognitoClient
             }
 
             if ($e->getAwsErrorCode() === self::INVALID_PASSWORD) {
-                return Password::INVALID_PASSWORD;
+                return 'passwords.password';
             }
 
             throw $e;
