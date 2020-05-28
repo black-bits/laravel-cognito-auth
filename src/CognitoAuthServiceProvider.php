@@ -25,10 +25,15 @@ class CognitoAuthServiceProvider extends ServiceProvider
 
         $this->app->singleton(CognitoClient::class, function (Application $app) {
             $config = [
-                'credentials' => config('cognito.credentials'),
                 'region'      => config('cognito.region'),
                 'version'     => config('cognito.version'),
             ];
+
+            $credentials = config('cognito.credentials');
+
+            if (! empty($credentials['key']) && ! empty($credentials['secret'])) {
+                $config['credentials'] = Arr::only($credentials, ['key', 'secret', 'token']);
+            }
 
             return new CognitoClient(
                 new CognitoIdentityProviderClient($config),
