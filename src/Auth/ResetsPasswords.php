@@ -25,7 +25,8 @@ trait ResetsPasswords
 
         $user = $client->getUser($request->email);
 
-        if ($user['UserStatus'] == CognitoClient::FORCE_PASSWORD_STATUS) {
+        if (isset($user['UserStatus'])
+            && $user['UserStatus'] == CognitoClient::FORCE_PASSWORD_STATUS) {
             $response = $this->forceNewPassword($request);
         } else {
             $response = $client->resetPassword($request->token, $request->email, $request->password);
